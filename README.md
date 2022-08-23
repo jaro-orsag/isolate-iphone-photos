@@ -17,3 +17,18 @@ pictures from WhatsApp are separated out.
     * `device_name` - name of device that captured the picture
       * `yyyy-mm-dd-moment-name`
         * the picture itself
+
+## Running `sort-iphone-photos`
+
+First you have to install golang on your machine https://go.dev/dl/
+
+To run the program
+```
+$ go run sort-iphone-photos.go
+```
+
+To build and run the binary
+```
+$ go build sort-iphone-photos.go
+$ ./sort-iphone-photos
+```
