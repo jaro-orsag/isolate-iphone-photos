@@ -22,6 +22,12 @@ pictures from WhatsApp are separated out.
 
 First you have to install golang on your machine https://go.dev/dl/
 
+And install dependencies
+```
+$ go get github.com/rwcarlsen/goexif/exif
+$ go get github.com/tidwall/gjson
+```
+
 To run the program
 ```
 $ go run sort-iphone-photos.go
@@ -32,3 +38,12 @@ To build and run the binary
 $ go build sort-iphone-photos.go
 $ ./sort-iphone-photos
 ```
+
+
+
+Make: "Apple"
+DateTimeOriginal: "2022:07:28 12:02:22"
+LensModel: "iPhone 12 mini back dual wide camera 4.2mm f/1.6"
+DateTimeDigitized: "2022:07:28 12:02:22"
+LensMake: "Apple"
+Model: "iPhone 12 mini"
