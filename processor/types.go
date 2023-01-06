@@ -1,6 +1,9 @@
 package processor
 
-import filepath "path/filepath"
+import (
+	filepath "path/filepath"
+	"time"
+)
 
 type TraverseDirTreeFunc func(root string, fn filepath.WalkFunc) error
 
@@ -8,9 +11,28 @@ type MakeCollectMetadataFunc func(postProcessFunc PostProcessFunc) filepath.Walk
 
 type PostProcessFunc func(metadata *metadata) error
 
+type FileStatus int
+
+const (
+	Unprocessable FileStatus = iota
+	Thrash
+	Regular
+)
+
+func (fs FileStatus) String() string {
+	return [...]string{"Unprocessable", "Thrash", "Regular"}[fs-1]
+}
+
+func (fs FileStatus) EnumIndex() int {
+	return int(fs)
+}
+
 type metadata struct {
-	Path     string
-	Make     string
-	Model    string
-	DateTime string
+	Status              FileStatus
+	UnprocessableReason string
+	ThrashReason        string
+	Path                string
+	Make                string
+	Model               string
+	Created             *time.Time
 }
