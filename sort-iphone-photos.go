@@ -20,7 +20,8 @@ func main() {
 	err := filepath.Walk(inputDir, func(path string, fileInfo os.FileInfo, err error) error {
 
 		if err != nil {
-			fmt.Printf("%s\n\terror processing path\n", path, err)
+			fmt.Printf("error processing path: %s\n", path)
+			fmt.Print(err)
 			return nil
 		}
 

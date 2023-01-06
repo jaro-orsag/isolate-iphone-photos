@@ -25,11 +25,11 @@ Let's assume our photo library export is located in `../_examples/photo-library-
 
 To run the program
 ```
-$ go run sort-iphone-photos.go ../_examples/photo-library-export
+go run sort-iphone-photos.go ../_examples/photo-library-export
 ```
 
 To build and run the binary
 ```
-$ go build sort-iphone-photos.go
-$ ./sort-iphone-photos ../_examples/photo-library-export
+go build sort-iphone-photos.go
+./sort-iphone-photos ../_examples/photo-library-export
 ```
