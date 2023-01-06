@@ -16,8 +16,10 @@ import (
 
 const exifDateTimeFormat = "2006:01:02 15:04:05"
 
-// TODO: this should be generalized or configurable
+// TODO: following constants should be generalized or configurable
 const videoFileSuffix = ".mov"
+const expectedMake = "Apple"
+const expectedModel = "iPhone 12 mini"
 
 func MakeCollectMetadata(postProcess PostProcessFunc) filepath.WalkFunc {
 	exif.RegisterParsers(mknote.All...)
@@ -61,7 +63,7 @@ func MakeCollectMetadata(postProcess PostProcessFunc) filepath.WalkFunc {
 			return postProcess(createThrash(path, modTime, err))
 		}
 
-		return postProcess(createRegularWithExif(path, exifData, modTime))
+		return postProcess(createWithExif(path, exifData, modTime))
 	}
 }
 
@@ -94,14 +96,27 @@ func createRegular(path string, dateCreated time.Time) *metadata {
 	}
 }
 
-func createRegularWithExif(path string, exifData *exif.Exif, dateCreatedFallback time.Time) *metadata {
+func createWithExif(path string, exifData *exif.Exif, dateCreatedFallback time.Time) *metadata {
+	make := getExifField(exifData, exif.Make)
+	model := getExifField(exifData, exif.Model)
+	areMakeAndModelExpected := make == expectedMake && model == expectedModel
+
+	var status FileStatus
+	var thrashReason string
+	if areMakeAndModelExpected {
+		status = Regular
+	} else {
+		status = Thrash
+		thrashReason = "unexpected camera make or model"
+	}
 
 	return &metadata{
-		Status:  Regular,
-		Path:    path,
-		Make:    getExifField(exifData, exif.Make),
-		Model:   getExifField(exifData, exif.Model),
-		Created: getExifTimeField(exifData, exif.DateTime, dateCreatedFallback),
+		Status:       status,
+		ThrashReason: thrashReason,
+		Path:         path,
+		Make:         make,
+		Model:        model,
+		Created:      getExifTimeField(exifData, exif.DateTime, dateCreatedFallback),
 	}
 }
 
