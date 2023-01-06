@@ -21,13 +21,15 @@ For example, pictures from WhatsApp are separated out.
 ## Running `sort-iphone-photos`
 First you have to install golang on your machine https://go.dev/dl/
 
+Let's assume our photo library export is located in `../_examples/photo-library-export` folder.
+
 To run the program
 ```
-$ go run sort-iphone-photos.go
+$ go run sort-iphone-photos.go ../_examples/photo-library-export
 ```
 
 To build and run the binary
 ```
 $ go build sort-iphone-photos.go
-$ ./sort-iphone-photos
+$ ./sort-iphone-photos ../_examples/photo-library-export
 ```
