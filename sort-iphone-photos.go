@@ -19,7 +19,7 @@ func main() {
 		Root:                inputDir,
 		TraverseDirTree:     filepath.Walk,
 		MakeCollectMetadata: processor.MakeCollectMetadata,
-		WriteFile:           processor.WriteFile,
+		MakeWriteFile:       processor.MakeWriteFile,
 	})
 
 	log.Print("finished processing photo library export")

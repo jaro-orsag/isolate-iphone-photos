@@ -17,7 +17,7 @@ import (
 const exifDateTimeFormat = "2006:01:02 15:04:05"
 
 // TODO: following constants should be generalized or configurable
-const videoFileSuffix = ".mov"
+const videoFileExt = ".mov"
 const expectedMake = "Apple"
 const expectedModel = "iPhone 12 mini"
 
@@ -153,11 +153,11 @@ func getExifTimeField(metaData *exif.Exif, fieldName exif.FieldName, fallbackTim
 }
 
 func isVideo(path string) bool {
-	return strings.HasSuffix(strings.ToLower(path), videoFileSuffix)
+	return strings.ToLower(filepath.Ext(path)) == videoFileExt
 }
 
 func isLivePhoto(path string) bool {
-	filesWithSameNameAndVariousExtensions := path[:len(path)-len(videoFileSuffix)] + "*"
+	filesWithSameNameAndVariousExtensions := path[:len(path)-len(videoFileExt)] + "*"
 	matches, err := filepath.Glob(filesWithSameNameAndVariousExtensions)
 
 	if err != nil {
