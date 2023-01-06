@@ -11,6 +11,8 @@ type MakeCollectMetadataFunc func(postProcessFunc PostProcessFunc) filepath.Walk
 
 type PostProcessFunc func(metadata *metadata) error
 
+type MakePostProcessFunc func(root string) PostProcessFunc
+
 type FileStatus int
 
 const (
@@ -20,7 +22,7 @@ const (
 )
 
 func (fs FileStatus) String() string {
-	return [...]string{"Unprocessable", "Thrash", "Regular"}[fs-1]
+	return [...]string{"Unprocessable", "Thrash", "Regular"}[fs]
 }
 
 func (fs FileStatus) EnumIndex() int {
