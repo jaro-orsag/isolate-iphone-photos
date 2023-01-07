@@ -2,6 +2,8 @@
 Command line utility that helps with separation of iPhone camera photos from other pictures on iPhone. 
 For example, pictures from WhatsApp are separated out.
 
+Use with care and love. And double check the results.
+
 ## How it works?
 1. Import pictures from your iPhone to photo library. See one of the following articles for more info
     * https://mackeeper.com/blog/how-to-import-photos-iphone-to-mac/
@@ -11,12 +13,15 @@ For example, pictures from WhatsApp are separated out.
     * Ideally export unmodified originals
     * Export with `Subfolder Format: None`
 
-3. [TODO] Run `sort-iphone-photos`
+3. Run `sort-iphone-photos`
 
 4. `sort-iphone-photos` will produce following folder structure based on picture metedata
-    * `device_name` - name of device that captured the picture
-      * `yyyy-mm-dd-moment-name`
-        * the picture itself
+    * `Regular` - pictures and videos from iPhone. Excluded are live photo videos, screenshots, WhatsApp files, etc..
+      * `yyyy-mm-dd`
+        * the pictures
+    * `Thrash` - live photo videos, screenshots, WhatsApp files, etc..
+      * `yyyy-mm-dd`
+        * the pictures
 
 ## Running `sort-iphone-photos`
 First you have to install golang on your machine https://go.dev/dl/
@@ -33,3 +38,22 @@ To build and run the binary
 go build sort-iphone-photos.go
 ./sort-iphone-photos ../_examples/photo-library-export
 ```
+
+# Roadmap
+Functionalities:
+* Dry run
+* Live photo videos have separate status and subfolder
+* Verbose and silent mode
+* Counters and statistics
+* Configurable output folder
+* Use moment name from media library in target folder names
+* Include simple usage gif in this readme
+
+Development
+* Spaces instead of tabs
+* Cover with unit tests. Shame on me - I should have implemented tests first. That would also affect the design.
+* Enable force pushing to branches
+* Extract some of the constants to cmd flags with defaults
+    * output date format
+    * video file extension
+    * expected device make and model
