@@ -7,7 +7,6 @@ import (
 	cp "github.com/otiai10/copy"
 )
 
-// TODO: following constants should be generalized or configurable
 const dateFormat = "2006-01-02"
 
 // TODO: implement shared counters and stats
