@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	processor "sort-iphone-photos/processor"
+	processor "isolate-iphone-photos/processor"
 )
 
 func main() {

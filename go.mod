@@ -1,4 +1,4 @@
-module sort-iphone-photos
+module isolate-iphone-photos
 
 go 1.18
 

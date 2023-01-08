@@ -1,4 +1,4 @@
-# sort-iphone-photos
+# isolate-iphone-photos
 Command line utility that helps with separation of iPhone camera media from other media on iPhone. 
 
 Media that are included
@@ -27,9 +27,9 @@ double check the results.
     * Ideally export unmodified originals
     * Export with `Subfolder Format: None`
 
-3. Run `./sort-iphone-photos <input-folder>`
+3. Run `./isolate-iphone-photos <input-folder>`
 
-4. `sort-iphone-photos` will produce following folder structure based on picture metedata
+4. `isolate-iphone-photos` will produce following folder structure based on picture metedata
     * `random-guid` - subfolder of `input-folder`
         * `Regular` - pictures and videos from iPhone without excluded media
             * `yyyy-mm-dd`
@@ -38,20 +38,20 @@ double check the results.
             * `yyyy-mm-dd`
             * the pictures
 
-## Running `sort-iphone-photos`
+## Running `isolate-iphone-photos`
 First you have to install golang on your machine https://go.dev/dl/
 
 Let's assume our photo library export is located in `../_examples/photo-library-export` folder.
 
 To run the program
 ```
-go run sort-iphone-photos.go ../_examples/photo-library-export
+go run isolate-iphone-photos.go ../_examples/photo-library-export
 ```
 
 To build and run the binary
 ```
-go build sort-iphone-photos.go
-./sort-iphone-photos ../_examples/photo-library-export
+go build isolate-iphone-photos.go
+./isolate-iphone-photos ../_examples/photo-library-export
 ```
 
 # Roadmap
