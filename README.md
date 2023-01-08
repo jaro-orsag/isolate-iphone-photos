@@ -20,8 +20,6 @@ This project has two goals:
 - To fulful the needs of its author related to processing of iPhone photos
 - It is an attempt to practice golang. Therefore, please use it with care and love. And double check the results.
 
-For more info see https://github.com/jaro-orsag/isolate-iphone-photos.
-
 ## Workflow
 1. Import pictures from your iPhone to photo library. See one of the following articles for more info
     * https://mackeeper.com/blog/how-to-import-photos-iphone-to-mac/
@@ -67,7 +65,7 @@ GLOBAL OPTIONS:
 
 # Roadmap
 Functional
-* Recognize multiple video format, so that we cover situation when output format is changed in iPhone settings
+* Recognize multiple video formats, so that we cover situation when output format is changed in iPhone settings
 * Dry run
 * Verbose and silent mode
 * Counters and statistics
@@ -75,8 +73,8 @@ Functional
 * Include simple usage gif in this readme
 
 Non functional
+* Make the code more [golang idiomatic](https://go.dev/doc/effective_go)
 * Spaces instead of tabs
 * Cover with unit tests. Shame on me - I should have implemented tests first. That would also affect the design.
 * Enable force pushing to branches
-* Make the code more [golang idiomatic](https://go.dev/doc/effective_go)
 * Introduce concurrency and channels for communication between collector and writer
