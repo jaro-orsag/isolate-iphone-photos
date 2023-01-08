@@ -1,6 +1,9 @@
 # sort-iphone-photos
-Command line utility that helps with separation of iPhone camera photos (including selfies) and videos from 
-other media on iPhone. 
+Command line utility that helps with separation of iPhone camera media from other media on iPhone. 
+
+Media that are included
+* iPhone camera photos, including selfies
+* iPhone camera videos, including selfies
 
 Media that are separated out are
 * Whatsapp media
