@@ -56,7 +56,6 @@ go build isolate-iphone-photos.go
 
 # Roadmap
 Functional
-* Live photo videos have separate status and subfolder
 * Dry run
 * Verbose and silent mode
 * Counters and statistics
