@@ -19,10 +19,11 @@ const (
 	Unprocessable FileStatus = iota
 	Thrash
 	Regular
+	LivePhotoVideo
 )
 
 func (fs FileStatus) String() string {
-	return [...]string{"Unprocessable", "Thrash", "Regular"}[fs]
+	return [...]string{"Unprocessable", "Thrash", "Regular", "LivePhotoVideo"}[fs]
 }
 
 func (fs FileStatus) EnumIndex() int {

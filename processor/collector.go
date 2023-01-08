@@ -1,7 +1,6 @@
 package processor
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -50,7 +49,7 @@ func MakeCollectMetadata(postProcess PostProcessFunc) filepath.WalkFunc {
 
 			if isLivePhoto(path) {
 
-				return postProcess(createThrash(path, modTime, errors.New("live photo")))
+				return postProcess(createLivePhotoVideo(path, modTime))
 			}
 
 			return postProcess(createRegular(path, modTime))
@@ -91,6 +90,15 @@ func createRegular(path string, dateCreated time.Time) *metadata {
 
 	return &metadata{
 		Status:  Regular,
+		Path:    path,
+		Created: &dateCreated,
+	}
+}
+
+func createLivePhotoVideo(path string, dateCreated time.Time) *metadata {
+
+	return &metadata{
+		Status:  LivePhotoVideo,
 		Path:    path,
 		Created: &dateCreated,
 	}
