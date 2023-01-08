@@ -1,15 +1,19 @@
 # sort-iphone-photos
-Command line utility that helps with separation of iPhone camera photos and videos from other media on iPhone. 
+Command line utility that helps with separation of iPhone camera photos (including selfies) and videos from 
+other media on iPhone. 
 
 Media that are separated out are
 * Whatsapp media
 * iPhone screenshots
 * Live photo videos
 * All the pictures without metadata
-* All the pictures with metadata, but with unexpected make and model. Expected make is `Apple` and expected model is 
-`iPhone 12 mini`.
+* All the pictures with metadata, but with unexpected make and model. Expected make is `Apple` and expected 
+model is `iPhone 12 mini`.
 
-Use with care and love. And double check the results.
+This project has two goals
+* To fulful the needs of its author related to processing of iPhone photos.
+* It is an attempt to practice [golang](https://go.dev/). Therefore, please use it with care and love. And 
+double check the results.
 
 ## How it works?
 1. Import pictures from your iPhone to photo library. See one of the following articles for more info
