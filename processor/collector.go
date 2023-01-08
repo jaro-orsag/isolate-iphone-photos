@@ -15,12 +15,41 @@ import (
 
 const exifDateTimeFormat = "2006:01:02 15:04:05"
 
-// TODO: following constants should be generalized or configurable
-const videoFileExt = ".mov"
-const expectedMake = "Apple"
-const expectedModel = "iPhone 12 mini"
+type fileStatus int
 
-func MakeCollectMetadata(postProcess PostProcessFunc) filepath.WalkFunc {
+const (
+	Unprocessable fileStatus = iota
+	Thrash
+	Regular
+	LivePhotoVideo
+)
+
+func (fs fileStatus) String() string {
+	return [...]string{"Unprocessable", "Thrash", "Regular", "LivePhotoVideo"}[fs]
+}
+
+func (fs fileStatus) EnumIndex() int {
+	return int(fs)
+}
+
+type metadata struct {
+	Status              fileStatus
+	UnprocessableReason string
+	ThrashReason        string
+	Path                string
+	Make                string
+	Model               string
+	Created             *time.Time
+}
+
+type makeCollectMetadataArgs struct {
+	ExpectedCameraMake  string
+	ExpectedCameraModel string
+	VideoFileExtension  string
+	PostProcess         PostProcessFunc
+}
+
+func MakeCollectMetadata(args *makeCollectMetadataArgs) filepath.WalkFunc {
 	exif.RegisterParsers(mknote.All...)
 
 	return func(path string, fileInfo os.FileInfo, err error) error {
@@ -29,7 +58,7 @@ func MakeCollectMetadata(postProcess PostProcessFunc) filepath.WalkFunc {
 
 		if err != nil {
 
-			return postProcess(createUnprocessable(path, modTime, err))
+			return args.PostProcess(createUnprocessable(path, modTime, err))
 		}
 
 		if fileInfo.IsDir() {
@@ -41,28 +70,34 @@ func MakeCollectMetadata(postProcess PostProcessFunc) filepath.WalkFunc {
 		imgFile, err := os.Open(path)
 		if err != nil {
 
-			return postProcess(createUnprocessable(path, modTime, err))
+			return args.PostProcess(createUnprocessable(path, modTime, err))
 		}
 
-		if isVideo(path) {
-			// videos do not have exif metadata, so we are not even trying to load them
+		if isVideo(path, args.VideoFileExtension) {
+			// videos do not have exif metadata, so we are not even trying to load exif metadata
 
-			if isLivePhoto(path) {
+			if isLivePhoto(path, args.VideoFileExtension) {
 
-				return postProcess(createLivePhotoVideo(path, modTime))
+				return args.PostProcess(createLivePhotoVideo(path, modTime))
 			}
 
-			return postProcess(createRegular(path, modTime))
+			return args.PostProcess(createRegular(path, modTime))
 		}
 
 		exifData, err := exif.Decode(imgFile)
 		if err != nil {
 			// files without exif metadata are thrash, because iPhone camera photos have exif metadata
 
-			return postProcess(createThrash(path, modTime, err))
+			return args.PostProcess(createThrash(path, modTime, err))
 		}
 
-		return postProcess(createWithExif(path, exifData, modTime))
+		return args.PostProcess(createWithExif(&createWithExifArgs{
+			Path:                path,
+			ExifData:            exifData,
+			DateCreatedFallback: modTime,
+			ExpectedCameraMake:  args.ExpectedCameraMake,
+			ExpectedCameraModel: args.ExpectedCameraModel,
+		}))
 	}
 }
 
@@ -104,13 +139,22 @@ func createLivePhotoVideo(path string, dateCreated time.Time) *metadata {
 	}
 }
 
-func createWithExif(path string, exifData *exif.Exif, dateCreatedFallback time.Time) *metadata {
-	make := getExifField(exifData, exif.Make)
-	model := getExifField(exifData, exif.Model)
-	areMakeAndModelExpected := make == expectedMake && model == expectedModel
+type createWithExifArgs struct {
+	Path                string
+	ExifData            *exif.Exif
+	DateCreatedFallback time.Time
+	ExpectedCameraMake  string
+	ExpectedCameraModel string
+}
 
-	var status FileStatus
+func createWithExif(args *createWithExifArgs) *metadata {
+	make := getExifField(args.ExifData, exif.Make)
+	model := getExifField(args.ExifData, exif.Model)
+	areMakeAndModelExpected := make == args.ExpectedCameraMake && model == args.ExpectedCameraModel
+
+	var status fileStatus
 	var thrashReason string
+
 	if areMakeAndModelExpected {
 		status = Regular
 	} else {
@@ -121,10 +165,10 @@ func createWithExif(path string, exifData *exif.Exif, dateCreatedFallback time.T
 	return &metadata{
 		Status:       status,
 		ThrashReason: thrashReason,
-		Path:         path,
+		Path:         args.Path,
 		Make:         make,
 		Model:        model,
-		Created:      getExifTimeField(exifData, exif.DateTime, dateCreatedFallback),
+		Created:      getExifTimeField(args.ExifData, exif.DateTime, args.DateCreatedFallback),
 	}
 }
 
@@ -160,11 +204,11 @@ func getExifTimeField(metaData *exif.Exif, fieldName exif.FieldName, fallbackTim
 	return &fieldDate
 }
 
-func isVideo(path string) bool {
+func isVideo(path string, videoFileExt string) bool {
 	return strings.ToLower(filepath.Ext(path)) == videoFileExt
 }
 
-func isLivePhoto(path string) bool {
+func isLivePhoto(path string, videoFileExt string) bool {
 	filesWithSameNameAndVariousExtensions := path[:len(path)-len(videoFileExt)] + "*"
 	matches, err := filepath.Glob(filesWithSameNameAndVariousExtensions)
 
