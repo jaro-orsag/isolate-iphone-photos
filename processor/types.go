@@ -10,4 +10,4 @@ type MakeCollectMetadataFunc func(*makeCollectMetadataArgs) filepath.WalkFunc
 
 type PostProcessFunc func(*metadata) error
 
-type MakePostProcessFunc func(root string) PostProcessFunc
+type MakePostProcessFunc func(root string, thrash chan int, regular chan int, livePhotoVideo chan int) PostProcessFunc

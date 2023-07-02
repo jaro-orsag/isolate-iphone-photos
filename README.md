@@ -38,7 +38,7 @@ Let's assume our photo library export is located in `../_examples/photo-library-
 
 To run the program
 ```
-go run isolate-iphone-photos.go ../_examples/photo-library-export
+go run isolate-iphone-photos.go -i ../_examples/photo-library-export
 ```
 
 To build and run the binary
@@ -67,10 +67,12 @@ GLOBAL OPTIONS:
 Functional
 * Recognize multiple video formats, so that we cover situation when output format is changed in iPhone settings
 * Dry run
-* Verbose and silent mode
-* Counters and statistics
 * Use moment name from media library in target folder names
 * Include simple usage gif in this readme
+* Use exif lib that supports heic format
+* Implement progress bar, so that the user does not think we are stuck. For example 
+  * https://pkg.go.dev/github.com/schollz/progressbar/v3 OR
+  * https://go.dev/tour/concurrency/6
 
 Non functional
 * Make the code more [golang idiomatic](https://go.dev/doc/effective_go)
@@ -78,3 +80,4 @@ Non functional
 * Cover with unit tests. Shame on me - I should have implemented tests first. That would also affect the design.
 * Enable force pushing to branches
 * Introduce concurrency and channels for communication between collector and writer
+* Refactor collector to be broken down to several smaller files
