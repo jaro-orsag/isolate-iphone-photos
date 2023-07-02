@@ -26,7 +26,7 @@ func MakeWriteFile(outputRoot string, thrash chan int, regular chan int, livePho
 
 		log.Printf("\ttargetPath %s", targetPath)
 
-		err := cp.Copy(metadata.Path, targetPath)
+		err := cp.Copy(metadata.Path, targetPath, cp.Options{PreserveTimes: true})
 		if err != nil {
 			log.Println(err)
 
