@@ -13,7 +13,12 @@ import (
 	"github.com/rwcarlsen/goexif/mknote"
 )
 
-const exifDateTimeFormat = "2006:01:02 15:04:05"
+
+
+const (
+	exifDateTimeFormat = "2006:01:02 15:04:05"
+	heicExtension      = ".heic"
+)
 
 type fileStatus int
 
@@ -80,6 +85,12 @@ func MakeCollectMetadata(args *makeCollectMetadataArgs) filepath.WalkFunc {
 
 				return args.PostProcess(createLivePhotoVideo(path, modTime))
 			}
+
+			return args.PostProcess(createRegular(path, modTime))
+		}
+
+		if isHeic(path) {
+			// exif lib we are using does not have exif support, so we assume heic images are from expected cammera
 
 			return args.PostProcess(createRegular(path, modTime))
 		}
@@ -226,4 +237,9 @@ func isLivePhoto(path string, videoFileExt string) bool {
 	}
 
 	return false
+}
+
+func isHeic(path string) bool {
+
+	return strings.ToLower(filepath.Ext(path)) == heicExtension
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -18,6 +19,7 @@ const (
 	expectedCameraMakeFlagName  = "expectedCameraMake"
 	expectedCameraModelFlagName = "expectedCameraModel"
 	videoFileExtensionFlagName  = "videoFileExtension"
+	logFileName                 = "processing.log"
 )
 
 func main() {
@@ -127,9 +129,7 @@ func main() {
 					lookupFolder := c.String(lookupFolderFlagName)
 
 					log.Printf("fixup-metadata launched with inputFolder %v and lookupFolder %v", inputFolder, lookupFolder)
-
 					fixer.FixupMetadata(inputFolder, lookupFolder)
-
 					log.Printf("finished")
 
 					return nil
