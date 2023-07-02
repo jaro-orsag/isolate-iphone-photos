@@ -1,7 +1,6 @@
 package main
 
 import (
-	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -32,16 +31,16 @@ func main() {
 				Usage: "Command line utility that helps with separation of iPhone camera media from other media " +
 					"on iPhone. It separates them by generating following folder structure: \n\n" +
 
-					" - Regular \n" +
+					" - regular \n" +
 					"     - YYYY-MM-DD \n" +
 					"         - iPhone camera photos, including selfies\n" +
 					"         - iPhone camera videos, including selfies\n\n" +
 
-					" - LivePhotoVideos \n" +
+					" - live-photo-videos \n" +
 					"     - YYYY-MM-DD \n" +
 					"         - Live photo videos\n\n" +
 
-					" - Thrash \n" +
+					" - others \n" +
 					"     - YYYY-MM-DD \n" +
 					"         - Whatsapp media\n" +
 					"         - iPhone screenshots\n" +
