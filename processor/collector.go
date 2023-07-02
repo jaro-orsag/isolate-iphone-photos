@@ -30,7 +30,7 @@ const (
 )
 
 func (fs fileStatus) String() string {
-	return [...]string{"Unprocessable", "Thrash", "Regular", "LivePhotoVideo"}[fs]
+	return [...]string{"unprocessable", "others", "regular", "live-photo-video"}[fs]
 }
 
 func (fs fileStatus) EnumIndex() int {
