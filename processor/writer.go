@@ -9,8 +9,7 @@ import (
 
 const dateFormat = "2006-01-02"
 
-// TODO: implement shared counters and stats
-func MakeWriteFile(outputRoot string) PostProcessFunc {
+func MakeWriteFile(outputRoot string, thrash chan int, regular chan int, livePhotoVideo chan int) PostProcessFunc {
 
 	return func(metadata *metadata) error {
 		log.Printf("%#v", metadata)
@@ -34,6 +33,14 @@ func MakeWriteFile(outputRoot string) PostProcessFunc {
 			return err
 		}
 
+		if metadata.Status == Thrash {
+			thrash <- 0
+		} else if  metadata.Status == Regular {
+			regular <- 0
+		} else if  metadata.Status == LivePhotoVideo {
+			livePhotoVideo <- 0
+		}
+		
 		return nil
 	}
 }
