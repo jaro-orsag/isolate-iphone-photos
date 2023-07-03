@@ -9,7 +9,7 @@ Command line utility that helps with separation of iPhone camera media from othe
     - YYYY-MM-DD
         - Live photo videos
 
-- thrash
+- others
     - YYYY-MM-DD
         - Whatsapp media
         - iPhone screenshots
