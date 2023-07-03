@@ -64,7 +64,7 @@ func calculateStats(thrash chan int, regular chan int, livePhotoVideo chan int, 
 		case <-livePhotoVideo:
 			livePhotoVideoCount++
 		case <-quit:
-			log.Printf("thrash: %v", thrashCount)
+			log.Printf("others: %v", thrashCount)
 			log.Printf("regular: %v", regularCount)
 			log.Printf("livePhotoVideo: %v", livePhotoVideoCount)
 			
