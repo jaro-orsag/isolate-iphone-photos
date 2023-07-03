@@ -1,15 +1,15 @@
 # isolate-iphone-photos
 Command line utility that helps with separation of iPhone camera media from other media on iPhone. It separates them by generating following folder structure:
-- Regular
+- regular
     - YYYY-MM-DD
         - iPhone camera photos, including selfies
         - iPhone camera videos, including selfies
 
-- LivePhotoVideos
+- live-photo-videos
     - YYYY-MM-DD
         - Live photo videos
 
-- Thrash
+- thrash
     - YYYY-MM-DD
         - Whatsapp media
         - iPhone screenshots
@@ -38,13 +38,13 @@ Let's assume our photo library export is located in `../_examples/photo-library-
 
 To run the program
 ```
-go run isolate-iphone-photos.go -i ../_examples/photo-library-export
+go run isolate-iphone-photos.go isolate-iphone-photos -i ../_examples/photo-library-export
 ```
 
 To build and run the binary
 ```
 go build isolate-iphone-photos.go
-./isolate-iphone-photos ../_examples/photo-library-export
+./isolate-iphone-photos isolate-iphone-photos -i ../_examples/photo-library-export
 ```
 
 ```

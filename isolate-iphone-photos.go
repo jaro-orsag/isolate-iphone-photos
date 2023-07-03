@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -89,9 +90,23 @@ func main() {
 				},
 				Action: func(c *cli.Context) error {
 					log.Printf("processing photo library export from %s\n", c.String(inputFolderFlagName))
+
+					outputFolder := c.String(outputFolderFlagName)
+					logFileFullName := filepath.Join(outputFolder, logFileName)
+					os.Mkdir(outputFolder, 0777)
+					logFile, err := os.Create(logFileFullName)
+					if err != nil {
+						log.Fatalf("error opening file: %v", err)
+					}
+					defer logFile.Close()
+					logFileWriter := io.Writer(logFile)
+		
+					log.Printf("for more info see %s\n", logFileFullName)
+					log.SetOutput(logFileWriter)
+
 					processor.Run(&processor.Args{
 						InputFolder:         c.String(inputFolderFlagName),
-						OutputFolder:        c.String(outputFolderFlagName),
+						OutputFolder:        outputFolder,
 						ExpectedCameraMake:  c.String(expectedCameraMakeFlagName),
 						ExpectedCameraModel: c.String(expectedCameraModelFlagName),
 						VideoFileExtension:  c.String(videoFileExtensionFlagName),
